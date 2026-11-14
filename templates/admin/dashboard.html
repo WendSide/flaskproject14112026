@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Админ-панель{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <h1 class="page-title">
+            <span class="neon-text">АДМИН-</span><span class="neon-text-red">ПАНЕЛЬ</span>
+        </h1>
+        
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🚗</div>
+                <div class="stat-info">
+                    <h3 class="stat-number">{{ stats.cars }}</h3>
+                    <p class="stat-label">Автомобилей</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔧</div>
+                <div class="stat-info">
+                    <h3 class="stat-number">{{ stats.parts }}</h3>
+                    <p class="stat-label">Запчастей</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <h3 class="stat-number">{{ stats.users }}</h3>
+                    <p class="stat-label">Пользователей</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">♥</div>
+                <div class="stat-info">
+                    <h3 class="stat-number">{{ stats.favorites }}</h3>
+                    <p class="stat-label">В избранном</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-menu">
+            <a href="{{ url_for('admin_cars') }}" class="admin-menu-card">
+                <div class="menu-icon">🚗</div>
+                <h3>Управление автомобилями</h3>
+                <p>Добавление, редактирование и удаление автомобилей</p>
+            </a>
+            <a href="{{ url_for('admin_parts') }}" class="admin-menu-card">
+                <div class="menu-icon">🔧</div>
+                <h3>Управление запчастями</h3>
+                <p>Каталог запчастей для всех автомобилей</p>
+            </a>
+            <a href="{{ url_for('admin_users') }}" class="admin-menu-card">
+                <div class="menu-icon">👥</div>
+                <h3>Пользователи</h3>
+                <p>Управление пользователями и правами</p>
+            </a>
+        </div>
+
+        <div class="admin-recent">
+            <div class="recent-section">
+                <h2 class="section-title">Последние автомобили</h2>
+                <div class="recent-list">
+                    {% for car in recent_cars %}
+                    <div class="recent-item">
+                        <span class="recent-name">{{ car.name }}</span>
+                        <span class="recent-date">{{ car.created_at.strftime('%d.%m.%Y') }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <h2 class="section-title">Новые пользователи</h2>
+                <div class="recent-list">
+                    {% for user in recent_users %}
+                    <div class="recent-item">
+                        <span class="recent-name">{{ user.username }}</span>
+                        <span class="recent-date">{{ user.created_at.strftime('%d.%m.%Y') }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

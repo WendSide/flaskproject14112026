@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Редактировать' if part else 'Добавить' }} запчасть{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <h1 class="page-title">
+            <span class="neon-text">{{ 'РЕДАКТИРОВАТЬ' if part else 'ДОБАВИТЬ' }}</span>
+            <span class="neon-text-red">ЗАПЧАСТЬ</span>
+        </h1>
+
+        <form method="POST" enctype="multipart/form-data" class="admin-form">
+            <div class="form-group">
+                <label>Название *</label>
+                <input type="text" name="name" value="{{ part.name if part else '' }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Автомобиль *</label>
+                <select name="car_id" required>
+                    <option value="">Выберите автомобиль</option>
+                    {% for car in cars %}
+                    <option value="{{ car.id }}" {% if part and part.car_id == car.id %}selected{% endif %}>
+                        {{ car.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Категория</label>
+                    <input type="text" name="category" value="{{ part.category if part else '' }}" placeholder="Например: Двигатель, Подвеска">
+                </div>
+
+                <div class="form-group">
+                    <label>Цена (₽) *</label>
+                    <input type="number" name="price" value="{{ part.price if part else '' }}" min="0" step="0.01" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Описание</label>
+                <textarea name="description" rows="5">{{ part.description if part else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Изображение</label>
+                {% if part and part.image %}
+                <div class="current-image">
+                    <p>Текущее: {{ part.image }}</p>
+                </div>
+                {% endif %}
+                <input type="file" name="image" accept="image/*">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-neon">Сохранить</button>
+                <a href="{{ url_for('admin_parts') }}" class="btn-neon btn-cancel">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

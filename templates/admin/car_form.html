@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Редактировать' if car else 'Добавить' }} автомобиль{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <h1 class="page-title">
+            <span class="neon-text">{{ 'РЕДАКТИРОВАТЬ' if car else 'ДОБАВИТЬ' }}</span>
+            <span class="neon-text-red">АВТОМОБИЛЬ</span>
+        </h1>
+
+        <form method="POST" enctype="multipart/form-data" class="admin-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Название *</label>
+                    <input type="text" name="name" value="{{ car.name if car else '' }}" required placeholder="Например: ВАЗ 2114">
+                </div>
+
+                <div class="form-group">
+                    <label>Модель *</label>
+                    <input type="text" name="model" value="{{ car.model if car else '' }}" required placeholder="Например: 2114">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Год выпуска</label>
+                    <input type="number" name="year" value="{{ car.year if car and car.year else '' }}" min="1900" max="2100" placeholder="2015">
+                </div>
+
+                <div class="form-group">
+                    <label>Цена (₽)</label>
+                    <input type="number" name="price" value="{{ car.price if car and car.price else '' }}" min="0" step="0.01" placeholder="150000">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Описание</label>
+                <textarea name="description" rows="5">{{ car.description if car else '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Изображение</label>
+                {% if car and car.image %}
+                <div class="current-image">
+                    <p>Текущее: {{ car.image }}</p>
+                </div>
+                {% endif %}
+                <input type="file" name="image" accept="image/*">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-neon">Сохранить</button>
+                <a href="{{ url_for('admin_cars') }}" class="btn-neon btn-cancel">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

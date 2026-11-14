@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Избранное{% endblock %}
+
+{% block content %}
+<section class="favorites-section">
+    <div class="container">
+        <h1 class="page-title">
+            <span class="neon-text">МОЁ</span>
+            <span class="neon-text-red">ИЗБРАННОЕ</span>
+        </h1>
+        
+        {% if parts %}
+        <div class="favorites-count">
+            <p>В избранном: <span class="neon-text-red">{{ parts|length }}</span> товаров</p>
+        </div>
+        
+        <div class="parts-grid">
+            {% for part in parts %}
+            <div class="part-card">
+                <div class="part-image">
+                    {% if part.image %}
+                    <img src="{{ url_for('static', filename='images/' + part.image) }}" alt="{{ part.name }}">
+                    {% else %}
+                    <div class="image-placeholder-small" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
+                        <span>{{ part.category[0] if part.category else '🔧' }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="part-info">
+                    <span class="part-category">{{ part.category or 'Без категории' }}</span>
+                    <h3 class="part-title neon-text">{{ part.name }}</h3>
+                    <p class="part-description">{{ part.description }}</p>
+                    <div class="part-car">
+                        <span>Для:</span> <a href="{{ url_for('car_detail', car_id=part.car.id) }}" class="neon-text-red">{{ part.car.name }}</a>
+                    </div>
+                    <div class="part-footer">
+                        <span class="part-price neon-text-red">{{ part.price }} ₽</span>
+                        <form action="{{ url_for('remove_favorite', part_id=part.id) }}" method="POST" style="display: inline;">
+                            <button type="submit" class="btn-remove">✕ Удалить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-favorites">
+            <div class="empty-icon">♡</div>
+            <p class="neon-text">У вас пока нет избранных товаров</p>
+            <p class="empty-subtitle">Добавляйте товары в избранное, чтобы не потерять их</p>
+            <a href="{{ url_for('catalog') }}" class="btn-neon">Перейти в каталог</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

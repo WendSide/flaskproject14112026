@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-wrapper">
+            <div class="auth-card">
+                <h1 class="auth-title">
+                    <span class="neon-text">ВХОД</span>
+                </h1>
+                
+                <form method="POST" class="auth-form">
+                    <div class="form-group">
+                        <label>Имя пользователя</label>
+                        <input type="text" name="username" required autocomplete="username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" name="password" required autocomplete="current-password">
+                    </div>
+                    
+                    <div class="form-group checkbox">
+                        <input type="checkbox" name="remember" id="remember">
+                        <label for="remember">Запомнить меня</label>
+                    </div>
+                    
+                    <button type="submit" class="btn-neon btn-full">Войти</button>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>Нет аккаунта? <a href="{{ url_for('register') }}" class="neon-text">Зарегистрироваться</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

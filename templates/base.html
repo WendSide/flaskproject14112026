@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TUNING SHOP{% endblock %} | АвтоТюнинг</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+    <div class="container">
+        <div class="nav-brand">
+            <a href="{{ url_for('index') }}">
+                <span class="neon-text">TUNING</span>
+                <span class="neon-text-red">SHOP</span>
+            </a>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Главная</a></li>
+            <li><a href="{{ url_for('catalog') }}" class="{% if request.endpoint == 'catalog' %}active{% endif %}">Каталог</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('favorites') }}" class="{% if request.endpoint == 'favorites' %}active{% endif %}">Избранное</a></li>
+                {% if current_user.is_admin %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" class="{% if 'admin' in request.endpoint %}active{% endif %}">Админка</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('logout') }}">Выход</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Вход</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('contacts') }}" class="{% if request.endpoint == 'contacts' %}active{% endif %}">Контакты</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>
+
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">
+                            {{ message }}
+                            <span class="close-flash">&times;</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="neon-text-red">TUNING SHOP</h3>
+                    <p>Лучший тюнинг для отечественных авто</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p>Телефон: +7 (999) 123-45-67</p>
+                    <p>Email: info@tuningshop.ru</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Адрес</h4>
+                    <p>г. Москва, ул. Тюнинговая, 2114</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tuning Shop. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

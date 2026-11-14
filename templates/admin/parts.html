@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Управление запчастями{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="page-title">
+                <span class="neon-text">ЗАПЧАСТИ</span>
+            </h1>
+            <a href="{{ url_for('admin_add_part') }}" class="btn-neon">+ Добавить запчасть</a>
+        </div>
+
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Автомобиль</th>
+                        <th>Цена</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for part in parts %}
+                    <tr>
+                        <td>{{ part.id }}</td>
+                        <td>{{ part.name }}</td>
+                        <td>{{ part.category or '-' }}</td>
+                        <td>{{ part.car.name }}</td>
+                        <td>{{ part.price }} ₽</td>
+                        <td class="actions">
+                            <a href="{{ url_for('admin_edit_part', part_id=part.id) }}" class="btn-action btn-edit">✎</a>
+                            <form action="{{ url_for('admin_delete_part', part_id=part.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Удалить запчасть?');">
+                                <button type="submit" class="btn-action btn-delete">✕</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

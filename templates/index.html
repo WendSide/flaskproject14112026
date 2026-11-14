@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <span class="neon-text">АВТО</span>
+            <span class="neon-text-red">ТЮНИНГ</span>
+        </h1>
+        <p class="hero-subtitle">Профессиональный тюнинг для вашего авто</p>
+        <a href="{{ url_for('catalog') }}" class="btn-neon">Смотреть каталог</a>
+    </div>
+    <div class="hero-overlay"></div>
+</section>
+
+<section class="cars-section">
+    <div class="container">
+        <h2 class="section-title">
+            <span class="neon-text-red">Популярные</span> модели
+        </h2>
+        <div class="cars-grid">
+            {% for car in cars %}
+            <div class="car-card">
+                <div class="car-image">
+                    <!-- Проверка наличия файла и его вывод -->
+                    {% if car.image %}
+                    <img src="{{ url_for('static', filename='images/' ~ car.image) }}" alt="{{ car.name }}" class="car-photo">
+                    {% else %}
+                    <!-- Резервный плейсхолдер, если фото не указано -->
+                    <div class="image-placeholder" style="background: linear-gradient(135deg, #1a0000 0%, #330000 100%);">
+                        <span>{{ car.model }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="car-info">
+                    <h3 class="car-title neon-text">{{ car.name }}</h3>
+                    <p class="car-description">{{ car.description[:100] }}...</p>
+                    <div class="car-meta">
+                        <span class="car-year">{{ car.year }}</span>
+                        <span class="car-price">{{ car.price|round }} ₽</span>
+                    </div>
+                    <a href="{{ url_for('car_detail', car_id=car.id) }}" class="btn-neon-small">Подробнее</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="neon-text">Быстрая доставка</h3>
+                <p>Доставка по всей России от 3 дней</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3 class="neon-text-red">Качественный монтаж</h3>
+                <p>Профессиональная установка запчастей</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3 class="neon-text">Гарантия</h3>
+                <p>Гарантия на все товары до 2 лет</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

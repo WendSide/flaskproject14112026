@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+<section class="contacts-section">
+    <div class="container">
+        <h1 class="page-title">
+            <span class="neon-text">КОНТАКТЫ</span>
+        </h1>
+        
+        <div class="contacts-grid">
+            <div class="contact-info">
+                <div class="contact-card">
+                    <h3 class="neon-text-red">Адрес</h3>
+                    <p>г. Москва, ул. Тюнинговая, 2114</p>
+                    <p>Режим работы: Пн-Пт 9:00-20:00</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3 class="neon-text-red">Телефон</h3>
+                    <p class="neon-text">+7 (999) 123-45-67</p>
+                    <p>+7 (999) 765-43-21</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3 class="neon-text-red">Email</h3>
+                    <p>info@tuningshop.ru</p>
+                    <p>sales@tuningshop.ru</p>
+                </div>
+            </div>
+            
+            <div class="contact-form-wrapper">
+                <form class="contact-form">
+                    <h3 class="neon-text">Отправить сообщение</h3>
+                    <input type="text" placeholder="Ваше имя" required>
+                    <input type="email" placeholder="Ваш email" required>
+                    <input type="tel" placeholder="Телефон">
+                    <textarea placeholder="Ваше сообщение" rows="5" required></textarea>
+                    <button type="submit" class="btn-neon">Отправить</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="map-wrapper">
+            <div class="map-placeholder">
+                <p>Карта проезда</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

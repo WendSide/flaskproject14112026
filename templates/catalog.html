@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Каталог{% endblock %}
+
+{% block content %}
+<section class="catalog-section">
+    <div class="container">
+        <h1 class="page-title">
+            <span class="neon-text">КАТАЛОГ</span>
+            <span class="neon-text-red">АВТО</span>
+        </h1>
+        
+        <div class="catalog-grid">
+            {% for car in cars %}
+            <div class="catalog-card">
+                <div class="catalog-image">
+                    {% if car.image %}
+                    <img src="{{ url_for('static', filename='images/' ~ car.image) }}" alt="{{ car.name }}" class="catalog-photo">
+                    {% else %}
+                    <div class="image-placeholder" style="background: linear-gradient(135deg, #1a0000 0%, #330000 100%);">
+                        <span>{{ car.model }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="catalog-info">
+                    <h3 class="catalog-title neon-text">{{ car.name }}</h3>
+                    <p class="catalog-description">{{ car.description[:150] }}...</p>
+                    <div class="catalog-meta">
+                        <span>Год: {{ car.year }}</span>
+                        <span>Цена: {{ car.price|round }} ₽</span>
+                    </div>
+                    <a href="{{ url_for('car_detail', car_id=car.id) }}" class="btn-neon">
+                        Смотреть запчасти
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
