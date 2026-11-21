@@ -3,6 +3,8 @@
 {% block title %}{{ part.name }}{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lightbox.css') }}">
+
 <section class="part-detail-section">
     <div class="container">
         <a href="{{ url_for('car_detail', car_id=part.car.id) }}" class="back-link">← Назад к {{ part.car.name }}</a>
@@ -10,7 +12,10 @@
         <div class="part-detail-header">
             <div class="part-detail-image">
                 {% if part.image %}
-                    <img src="{{ part.image|image_url }}" alt="{{ part.name }}" class="part-large-image">
+                    <img src="{{ part.image|image_url }}" 
+                         alt="{{ part.name }}" 
+                         class="part-large-image click-zoom"
+                         id="zoomImg">
                 {% else %}
                     <div class="image-placeholder-large" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
                         <span>{{ part.category[0] if part.category else '🔧' }}</span>
@@ -45,4 +50,11 @@
         </div>
     </div>
 </section>
+
+<!-- Модальное окно -->
+<div class="zoom-modal" id="zoomModal">
+    <img src="" alt="" id="zoomFullImg">
+</div>
+
+<script src="{{ url_for('static', filename='js/lightbox.js') }}"></script>
 {% endblock %}

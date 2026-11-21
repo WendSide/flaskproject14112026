@@ -29,6 +29,7 @@
                 <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Вход</a></li>
             {% endif %}
             <li><a href="{{ url_for('contacts') }}" class="{% if request.endpoint == 'contacts' %}active{% endif %}">Контакты</a></li>
+            <li><a href="{{ url_for('about') }}" class="{% if request.endpoint == 'about' %}active{% endif %}">О нас</a></li>
         </ul>
         <div class="hamburger">
             <span></span>

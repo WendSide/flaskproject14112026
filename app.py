@@ -106,6 +106,9 @@ PLACEHOLDER_SVG = (
     '</svg>'
 )
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route("/image/<path:filename>")
 def dynamic_image(filename):
