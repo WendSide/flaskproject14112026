@@ -6,21 +6,18 @@
 <section class="car-detail-section">
     <div class="container">
         <a href="{{ url_for('catalog') }}" class="back-link">← Назад к каталогу</a>
-        
+
         <div class="car-header">
             <div class="car-header-image">
-                <!-- ДОБАВЛЕНО: Проверка и вывод реального фото автомобиля -->
                 {% if car.image %}
-                    <img src="{{ url_for('static', filename='images/' + car.image) }}" 
-                         alt="{{ car.name }}" 
-                         class="car-main-image">
+                    <img src="{{ car.image|image_url }}" alt="{{ car.name }}" class="car-main-image">
                 {% else %}
                     <div class="image-placeholder-large" style="background: linear-gradient(135deg, #1a0000 0%, #330000 100%);">
                         <span>{{ car.model }}</span>
                     </div>
                 {% endif %}
             </div>
-            
+
             <div class="car-header-info">
                 <h1 class="car-detail-title neon-text">{{ car.name }}</h1>
                 <p class="car-detail-description">{{ car.description }}</p>
@@ -41,33 +38,32 @@
             <h2 class="section-title">
                 <span class="neon-text-red">ЗАПЧАСТИ</span> для {{ car.model }}
             </h2>
-            
+
             {% if parts %}
             <div class="parts-grid">
                 {% for part in parts %}
-                <div class="part-card">
+                <!-- ДОБАВЛЕНО: onclick делает всю карточку кликабельной -->
+                <div class="part-card clickable-card" onclick="window.location.href='{{ url_for('part_detail', part_id=part.id) }}'">
                     <div class="part-image">
-                        <!-- ДОБАВЛЕНО: Проверка и вывод реального фото запчасти -->
                         {% if part.image %}
-                            <img src="{{ url_for('static', filename='images/' + part.image) }}" 
-                                 alt="{{ part.name }}" 
-                                 class="part-main-image">
+                            <img src="{{ part.image|image_url }}" alt="{{ part.name }}" class="part-main-image">
                         {% else %}
                             <div class="image-placeholder-small" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
-                                <!-- Защита от ошибки, если category пустая -->
                                 <span>{{ part.category[0] if part.category else '🔧' }}</span>
                             </div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="part-info">
                         <span class="part-category">{{ part.category or 'Без категории' }}</span>
                         <h3 class="part-title neon-text">{{ part.name }}</h3>
-                        <p class="part-description">{{ part.description }}</p>
+                        <p class="part-description">{{ part.description[:100] }}{% if part.description|length > 100 %}...{% endif %}</p>
                         <div class="part-footer">
                             <span class="part-price neon-text-red">{{ part.price }} ₽</span>
+                            
+                            <!-- ДОБАВЛЕНО: event.stopPropagation() предотвращает переход по ссылке при клике на кнопку -->
                             {% if current_user.is_authenticated %}
-                            <form action="{{ url_for('add_favorite', part_id=part.id) }}" method="POST" style="display: inline;">
+                            <form action="{{ url_for('add_favorite', part_id=part.id) }}" method="POST" style="display: inline;" onclick="event.stopPropagation();">
                                 <button type="submit" class="btn-favorite">♥ В избранное</button>
                             </form>
                             {% endif %}

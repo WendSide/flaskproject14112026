@@ -14,22 +14,33 @@
             {% for car in cars %}
             <div class="catalog-card">
                 <div class="catalog-image">
+                    <!-- ИСПРАВЛЕНО: используем фильтр image_url вместо жесткого пути -->
                     {% if car.image %}
-                    <img src="{{ url_for('static', filename='images/' ~ car.image) }}" alt="{{ car.name }}" class="catalog-photo">
+                    <img src="{{ car.image | image_url }}" 
+                         alt="{{ car.name }}" 
+                         class="catalog-photo" 
+                         loading="lazy">
                     {% else %}
                     <div class="image-placeholder" style="background: linear-gradient(135deg, #1a0000 0%, #330000 100%);">
                         <span>{{ car.model }}</span>
                     </div>
                     {% endif %}
                 </div>
+                
                 <div class="catalog-info">
                     <h3 class="catalog-title neon-text">{{ car.name }}</h3>
-                    <p class="catalog-description">{{ car.description[:150] }}...</p>
+                    <!-- Улучшено: троеточие добавляется только если текст действительно обрезан -->
+                    <p class="catalog-description">
+                        {{ car.description[:150] }}{% if car.description|length > 150 %}...{% endif %}
+                    </p>
+                    
                     <div class="catalog-meta">
-                        <span>Год: {{ car.year }}</span>
-                        <span>Цена: {{ car.price|round }} ₽</span>
+                        <!-- Улучшено: если год не указан, не будет выводиться "None" -->
+                        <span>Год: {{ car.year or 'Не указан' }}</span>
+                        <span class="car-price">Цена: {{ car.price|round }} ₽</span>
                     </div>
-                    <a href="{{ url_for('car_detail', car_id=car.id) }}" class="btn-neon">
+                    
+                    <a href="{{ url_for('car_detail', car_id=car.id) }}" class="btn-neon btn-full" style="text-align: center; margin-top: 1rem;">
                         Смотреть запчасти
                     </a>
                 </div>

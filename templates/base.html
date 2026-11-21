@@ -22,7 +22,7 @@
             {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('favorites') }}" class="{% if request.endpoint == 'favorites' %}active{% endif %}">Избранное</a></li>
                 {% if current_user.is_admin %}
-                    <li><a href="{{ url_for('admin_dashboard') }}" class="{% if 'admin' in request.endpoint %}active{% endif %}">Админка</a></li>
+                    <li><a href="{{ url_for('admin_dashboard') }}" class="{% if request.endpoint and 'admin' in request.endpoint %}active{% endif %}">Админка</a></li>
                 {% endif %}
                 <li><a href="{{ url_for('logout') }}">Выход</a></li>
             {% else %}
@@ -60,7 +60,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3 class="neon-text-red">TUNING SHOP</h3>
-                    <p>Лучший тюнинг для отечественных авто</p>
+                    <p>Лучший тюнинг для авто</p>
                 </div>
                 <div class="footer-section">
                     <h4>Контакты</h4>
@@ -78,8 +78,6 @@
         </div>
     </footer>
 
-
-    
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

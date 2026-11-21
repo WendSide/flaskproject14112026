@@ -22,13 +22,11 @@
         </h2>
         <div class="cars-grid">
             {% for car in cars %}
-            <div class="car-card">
+            <a href="{{ url_for('car_detail', car_id=car.id) }}" class="car-card">
                 <div class="car-image">
-                    <!-- Проверка наличия файла и его вывод -->
                     {% if car.image %}
-                    <img src="{{ url_for('static', filename='images/' ~ car.image) }}" alt="{{ car.name }}" class="car-photo">
+                    <img src="{{ car.image|image_url }}" alt="{{ car.name }}" class="car-photo">
                     {% else %}
-                    <!-- Резервный плейсхолдер, если фото не указано -->
                     <div class="image-placeholder" style="background: linear-gradient(135deg, #1a0000 0%, #330000 100%);">
                         <span>{{ car.model }}</span>
                     </div>
@@ -41,9 +39,9 @@
                         <span class="car-year">{{ car.year }}</span>
                         <span class="car-price">{{ car.price|round }} ₽</span>
                     </div>
-                    <a href="{{ url_for('car_detail', car_id=car.id) }}" class="btn-neon-small">Подробнее</a>
+                    <span class="btn-neon-small">Подробнее</span>
                 </div>
-            </div>
+            </a>
             {% endfor %}
         </div>
     </div>

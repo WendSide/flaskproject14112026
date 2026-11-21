@@ -9,18 +9,19 @@
             <span class="neon-text">МОЁ</span>
             <span class="neon-text-red">ИЗБРАННОЕ</span>
         </h1>
-        
+
         {% if parts %}
         <div class="favorites-count">
             <p>В избранном: <span class="neon-text-red">{{ parts|length }}</span> товаров</p>
         </div>
-        
+
         <div class="parts-grid">
             {% for part in parts %}
             <div class="part-card">
                 <div class="part-image">
+                    <!-- ИСПРАВЛЕНО: фильтр image_url вместо ручного пути к static/images -->
                     {% if part.image %}
-                    <img src="{{ url_for('static', filename='images/' + part.image) }}" alt="{{ part.name }}">
+                    <img src="{{ part.image|image_url }}" alt="{{ part.name }}">
                     {% else %}
                     <div class="image-placeholder-small" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
                         <span>{{ part.category[0] if part.category else '🔧' }}</span>

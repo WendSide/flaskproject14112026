@@ -8,43 +8,65 @@
         <h1 class="page-title">
             <span class="neon-text">КОНТАКТЫ</span>
         </h1>
-        
+
         <div class="contacts-grid">
             <div class="contact-info">
                 <div class="contact-card">
+                    <div class="contact-icon">📍</div>
                     <h3 class="neon-text-red">Адрес</h3>
                     <p>г. Москва, ул. Тюнинговая, 2114</p>
-                    <p>Режим работы: Пн-Пт 9:00-20:00</p>
+                    <p class="contact-sub">Режим работы: Пн-Пт 9:00-20:00</p>
                 </div>
-                
+
                 <div class="contact-card">
+                    <div class="contact-icon">📞</div>
                     <h3 class="neon-text-red">Телефон</h3>
                     <p class="neon-text">+7 (999) 123-45-67</p>
                     <p>+7 (999) 765-43-21</p>
                 </div>
-                
+
                 <div class="contact-card">
+                    <div class="contact-icon">✉️</div>
                     <h3 class="neon-text-red">Email</h3>
                     <p>info@tuningshop.ru</p>
                     <p>sales@tuningshop.ru</p>
                 </div>
             </div>
-            
+
             <div class="contact-form-wrapper">
-                <form class="contact-form">
+                <form class="contact-form" method="POST" action="{{ url_for('contacts') }}">
                     <h3 class="neon-text">Отправить сообщение</h3>
-                    <input type="text" placeholder="Ваше имя" required>
-                    <input type="email" placeholder="Ваш email" required>
-                    <input type="tel" placeholder="Телефон">
-                    <textarea placeholder="Ваше сообщение" rows="5" required></textarea>
-                    <button type="submit" class="btn-neon">Отправить</button>
+
+                    <div class="form-group">
+                        <label for="name">Ваше имя *</label>
+                        <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" placeholder="example@mail.ru" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Сообщение *</label>
+                        <textarea id="message" name="message" placeholder="Опишите ваш вопрос или предложение..." rows="5" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-neon btn-full">Отправить</button>
                 </form>
             </div>
         </div>
-        
+
         <div class="map-wrapper">
             <div class="map-placeholder">
+                <div class="map-icon">🗺️</div>
                 <p>Карта проезда</p>
+                <p class="map-sub">г. Москва, ул. Тюнинговая, 2114</p>
             </div>
         </div>
     </div>

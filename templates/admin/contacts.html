@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Админка - Сообщения{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="page-title">
+                <span class="neon-text">СООБЩЕНИЯ</span>
+                <span class="neon-text-red">ОТ КЛИЕНТОВ</span>
+            </h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn-neon-small">← Назад в админку</a>
+        </div>
+
+        {% if contacts_list %}
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                        <th>Сообщение</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts_list %}
+                    <tr class="{% if not contact.is_read %}unread{% endif %}">
+                        <td>{{ contact.id }}</td>
+                        <td>{{ contact.name }}</td>
+                        <td>
+                            <a href="mailto:{{ contact.email }}" class="neon-text-red">
+                                {{ contact.email }}
+                            </a>
+                        </td>
+                        <td>{{ contact.phone or '—' }}</td>
+                        <td class="message-cell">{{ contact.message }}</td>
+                        <td>{{ contact.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>
+                            {% if contact.is_read %}
+                                <span class="badge badge-user">Прочитано</span>
+                            {% else %}
+                                <span class="badge badge-admin">Новое</span>
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            {% if not contact.is_read %}
+                            <form action="{{ url_for('admin_mark_contact_read', contact_id=contact.id) }}" method="POST" style="display: inline;">
+                                <button type="submit" class="btn-action btn-toggle" title="Отметить как прочитанное">✓</button>
+                            </form>
+                            {% endif %}
+                            <form action="{{ url_for('admin_delete_contact', contact_id=contact.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Удалить это сообщение?');">
+                                <button type="submit" class="btn-action btn-delete" title="Удалить">✕</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-favorites">
+            <div class="empty-icon">📭</div>
+            <p class="neon-text">Сообщений пока нет</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
